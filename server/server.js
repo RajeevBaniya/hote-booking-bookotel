@@ -26,12 +26,18 @@ console.log("✅ Cloudinary initialized");
 
 const app = express();
 // CORS configuration for production and development
+const allowedOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.CLIENT_URL || 'https://your-app.vercel.app'] 
-    : ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin:
+    process.env.NODE_ENV === 'production'
+      ? allowedOrigins
+      : ['http://localhost:5173', 'http://127.0.0.1:5173'],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
 };
 app.use(cors(corsOptions));
 
