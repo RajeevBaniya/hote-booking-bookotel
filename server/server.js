@@ -12,17 +12,17 @@ import bookingRouter from "./routes/bookingRoutes.js";
 import bodyParser from "body-parser";
 import { stripeWebhooks } from "./controllers/stripeWebhooks.js";
 
-console.log("✅ All imports loaded successfully");
-console.log("📋 Environment check:");
+console.log("All imports loaded successfully");
+console.log("Environment check:");
 console.log("NODE_ENV:", process.env.NODE_ENV);
-console.log("MONGODB_URI:", process.env.MONGODB_URI ? "✅ Set" : "❌ Missing");
-console.log("CLERK_SECRET_KEY:", process.env.CLERK_SECRET_KEY ? "✅ Set" : "❌ Missing");
-console.log("CLOUDINARY_CLOUD_NAME:", process.env.CLOUDINARY_CLOUD_NAME ? "✅ Set" : "❌ Missing");
+console.log("MONGODB_URI:", process.env.MONGODB_URI ? "Set" : "Missing");
+console.log("CLERK_SECRET_KEY:", process.env.CLERK_SECRET_KEY ? "Set" : "Missing");
+console.log("CLOUDINARY_CLOUD_NAME:", process.env.CLOUDINARY_CLOUD_NAME ? "Set" : "Missing");
 
 // Initialize services (Cloudinary does internal caching; safe to call)
 console.log("🔧 Initializing Cloudinary...");
 connectCloudinary();
-console.log("✅ Cloudinary initialized");
+console.log("Cloudinary initialized");
 
 const app = express();
 // CORS configuration for production and development
@@ -75,8 +75,8 @@ export default app;
 // Don't start server on Vercel (serverless), but do start on Render and local
 if (!process.env.VERCEL) {
   const PORT = process.env.PORT || 3001;
-  console.log("🚀 Starting server on port:", PORT);
-  app.listen(PORT, () => console.log(`✅ Server is running on port ${PORT}`));
+  console.log("Starting server on port:", PORT);
+  app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 } else {
-  console.log("⚡ Vercel detected - skipping app.listen");
+  console.log(" Vercel detected - skipping app.listen");
 }
