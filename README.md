@@ -4,7 +4,7 @@ Hotel booking application with real-time payments and authentication.
 
 ## Tech Stack
 - Frontend: React + Vite
-- Backend: Express + MongoDB
+- Backend: Node + Express + MongoDB
 - Auth: Clerk
 - Payments: Stripe
 
