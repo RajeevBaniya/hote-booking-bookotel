@@ -1,0 +1,5 @@
+# Dependencies are ignored in respective folders
+node_modules
+
+# Deployment
+.vercel
