@@ -31,8 +31,5 @@ cd server && npm start
 cd client && npm run dev
 ```
 
-## Deployment
-- Frontend: Vercel
-- Backend: Render
 
 See individual README files in client/ and server/ for detailed setup.
