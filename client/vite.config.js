@@ -10,8 +10,8 @@ export default defineConfig({
       'Content-Security-Policy': [
         // Allow scripts from Stripe and Clerk during development
         "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://checkout.stripe.com https://js.stripe.com https://*.clerk.com https://*.clerk.accounts.dev",
-        // Permit font loading
-        "font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com data:",
+        // Permit font loading (including Stripe fonts)
+        "font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://js.stripe.com data:",
         // Allow API calls to local backend and 3rd parties used here
         "connect-src 'self' http://localhost:3001 https://checkout.stripe.com https://api.stripe.com https://*.clerk.com https://*.clerk.accounts.dev",
         // Helpful for dev tools/iframes from providers (Stripe/Clerk)

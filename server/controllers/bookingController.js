@@ -2,6 +2,7 @@ import transporter from "../configs/nodemailer.js";
 import Booking from "../models/Booking.js";
 import Hotel from "../models/Hotel.js";
 import Room from "../models/Room.js";
+import User from "../models/User.js";
 import stripe from "stripe";
 
 // Function to check Avaialability of Room
@@ -49,7 +50,26 @@ export const checkAvailabilityAPI = async (req, res) => {
 export const createBooking = async (req, res) => {
   try {
     const { room, checkInDate, checkOutDate, guests } = req.body;
-    const user = req.user._id;
+    const { userId } = req.auth();
+    
+    if (!userId) {
+      return res.json({ success: false, message: "User not authenticated" });
+    }
+    
+    // Ensure user exists in database (create if doesn't exist)
+    let user = await User.findById(userId);
+    if (!user) {
+      // User doesn't exist in our DB, but exists in Clerk - create them
+      console.log("Creating missing user:", userId);
+      user = await User.create({
+        _id: userId,
+        email: "temp@example.com", // Will be updated by webhook later
+        username: "User",
+        image: "",
+      });
+    }
+    
+    const userIdForBooking = user._id;
     // checking availability before booking
     const isAvailable = await checkAvailability(
       checkInDate,
@@ -71,7 +91,7 @@ export const createBooking = async (req, res) => {
 
     totalPrice *= nights;
     const booking = await Booking.create({
-      user,
+      user: userIdForBooking,
       room,
       hotel: roomData.hotel._id,
       guests: +guests,
