@@ -120,12 +120,17 @@ export const createBooking = async (req, res) => {
 // GET /api/bookings/user
 export const getUserBookings = async (req, res) => {
   try {
-    const user = req.user._id;
-    const bookings = await Booking.find({ user })
+    const { userId } = req.auth();
+    if (!userId) {
+      return res.json({ success: false, message: "User not authenticated" });
+    }
+    
+    const bookings = await Booking.find({ user: userId })
       .populate("room hotel")
       .sort({ createdAt: -1 });
     res.json({ success: true, bookings });
   } catch (error) {
+    console.log("Error fetching user bookings:", error.message);
     res.json({ success: false, message: "Failed to fetch bookings" });
   }
 };
