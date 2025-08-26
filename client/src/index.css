@@ -1,0 +1,221 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0a4a78;
+  --color-secondary: #046494;
+}
+
+* {
+  font-family: Outfit;
+}
+
+.font-playfair {
+  font-family: Playfair !important;
+}
+
+/* Swiper styles */
+.swiper {
+  width: 100%;
+  padding-bottom: 10px;
+  position: relative;
+}
+
+
+
+.swiper-pagination {
+  position: absolute !important;
+  bottom: -10px !important;
+  text-align: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.swiper-custom-pagination,
+.swiper-recommended-pagination {
+  position: relative !important;
+  text-align: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  bottom: -10px !important;
+}
+
+.swiper-pagination-bullet {
+  position: relative !important;
+  margin: 0 4px !important;
+  width: 8px !important;
+  height: 8px !important;
+  background-color: #cbd5e1 !important;
+  opacity: 1 !important;
+  transition: all 0.3s ease !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #0a4a78 !important;
+  transform: scale(1.2) !important;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+}
+
+/* Featured Hotels Swiper styles */
+.mySwiper .swiper-slide {
+  height: auto;
+  padding: 10px 5px;
+}
+
+.mySwiper .swiper-slide a {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+.mySwiper .swiper-slide a:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Testimonial Swiper styles */
+.testimonial-swiper {
+  padding-bottom: 20px;
+}
+
+/* Icon filter for sidebar */
+.sidebar-icon-blue {
+  filter: brightness(0) saturate(100%) invert(26%) sepia(94%) saturate(1098%)
+    hue-rotate(178deg) brightness(91%) contrast(101%);
+}
+
+.testimonial-swiper .swiper-slide {
+  height: auto;
+  padding: 10px 5px;
+}
+
+.testimonial-swiper .swiper-slide > div {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.testimonial-swiper .swiper-slide > div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.testimonial-pagination .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background-color: #cbd5e1;
+  opacity: 1;
+  margin: 0 4px;
+}
+
+.testimonial-pagination .swiper-pagination-bullet-active {
+  background-color: #0a4a78;
+}
+
+/* Dashboard and ListRoom table styles */
+.dashboard-table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  table-layout: fixed !important;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+  border: none !important;
+}
+
+.dashboard-table thead th {
+  background-color: #f9fafb !important;
+}
+
+/* Reset all table styles in the footer */
+footer table,
+footer th,
+footer td,
+.site-footer table,
+.site-footer th,
+.site-footer td,
+.bg-\[\#e5edf3\] table,
+.bg-\[\#e5edf3\] th,
+.bg-\[\#e5edf3\] td {
+  border: none !important;
+  width: auto !important;
+  table-layout: auto !important;
+  border-collapse: collapse !important;
+  background-color: transparent !important;
+}
+
+/* Additional reset for any nested elements */
+.site-footer *,
+.bg-\[\#e5edf3\] * {
+  z-index: auto !important;
+}
+
+/* Ensure the footer has its own stacking context */
+.site-footer,
+.bg-\[\#e5edf3\] {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+}
+
+/* Specific reset for footer input and button */
+.site-footer input,
+.site-footer button {
+  border-radius: initial;
+  padding: initial;
+}
+
+/* Dashboard and ListRoom table styles - more specific */
+.dashboard-specific-table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  table-layout: fixed !important;
+  width: 100% !important;
+}
+
+.dashboard-specific-table th,
+.dashboard-specific-table td {
+  border-color: #d1d5db !important;
+}
+
+.dashboard-specific-table thead {
+  background-color: #f3f4f6 !important;
+}
+
+.dashboard-specific-table thead tr {
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: #d1d5db !important;
+  border-bottom: none !important;
+}
+
+.dashboard-specific-table thead th {
+  border-bottom-width: 2px !important;
+  border-bottom-style: solid !important;
+  border-bottom-color: #d1d5db !important;
+}
+
+.dashboard-specific-table thead th:first-child {
+  border-left: 2px solid #d1d5db !important;
+}
+
+.dashboard-specific-table thead th:last-child {
+  border-right: 2px solid #d1d5db !important;
+}
+
+/* Create a separate stacking context for dashboard tables */
+.dashboard-specific-table {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+}
