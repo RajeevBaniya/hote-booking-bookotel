@@ -65,7 +65,7 @@ export const createBooking = async (req, res) => {
         _id: userId,
         email: "temp@example.com", // Will be updated by webhook later
         username: "User",
-        image: "",
+        image: "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18yZ1h1N0JHSDRVcVBUeEEyOXZkc1lmVENjRlMiLCJyaWQiOiJ1c2VyXzJnWXNQU0VTVVdwOWFoUkFIdldQTDBCNnZlSSIsImluaXRpYWxzIjoiUlMifQ", // Default avatar
       });
     }
     
