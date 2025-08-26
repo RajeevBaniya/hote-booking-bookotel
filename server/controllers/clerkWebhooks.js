@@ -22,6 +22,8 @@ const clerkWebhooks = async (req, res) => {
 
 
     // Switch Cases for different Events
+    console.log("🔗 Clerk webhook received:", type, "for user:", data.id);
+    
     switch (type) {
       case "user.created": {
         const userData = {
@@ -31,6 +33,7 @@ const clerkWebhooks = async (req, res) => {
           image: data.image_url,
         }
         await User.create(userData);
+        console.log("✅ User created in database:", data.id);
         break;
       }
 
@@ -42,15 +45,18 @@ const clerkWebhooks = async (req, res) => {
           image: data.image_url,
         }
         await User.findByIdAndUpdate(data.id, userData);
+        console.log("✅ User updated in database:", data.id);
         break;
       }
 
       case "user.deleted": {
         await User.findByIdAndDelete(data.id);
+        console.log("✅ User deleted from database:", data.id);
         break;
       }
 
       default:
+        console.log("⚠️ Unhandled webhook event:", type);
         break;
     }
     res.json({ success: true, message: "Webhook Recieved" });
