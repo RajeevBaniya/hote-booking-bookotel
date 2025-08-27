@@ -34,19 +34,3 @@ export const storeRecentSearchedCities = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
-
-// POST /api/user/become-host
-export const becomeHost = async (req, res) => {
-  try {
-    const user = await req.user;
-    if (!user) return res.json({ success: false, message: "User not found" });
-    if (user.role === "hotelOwner") {
-      return res.json({ success: true, message: "Already a hotel owner" });
-    }
-    user.role = "hotelOwner";
-    await user.save();
-    res.json({ success: true, message: "Upgraded to hotel owner" });
-  } catch (error) {
-    res.json({ success: false, message: error.message });
-  }
-};
