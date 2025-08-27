@@ -39,7 +39,7 @@ const Navbar = () => {
   const { openSignIn } = useClerk();
   const location = useLocation();
 
-  const { user: appUser, navigate, isOwner, setShowHotelReg } = useAppContext();
+  const { user: appUser, navigate, isOwner, setShowHotelReg, axios, getToken, fetchUser } = useAppContext();
 
   useEffect(() => {
     if (location.pathname !== "/") {
@@ -117,16 +117,31 @@ const Navbar = () => {
             </a>
           ))}
 
-          {user && (
+          {user && isOwner && (
             <button
               className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${
                 isScrolled ? "text-black" : "text-white"
               } transition-all`}
-              onClick={() =>
-                isOwner ? navigate("/owner") : setShowHotelReg(true)
-              }
+              onClick={() => navigate("/owner")}
             >
-              {isOwner ? "Dashboard" : "List Your Hotel"}
+              Dashboard
+            </button>
+          )}
+          {user && !isOwner && (
+            <button
+              className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${
+                isScrolled ? "text-black" : "text-white"
+              } transition-all`}
+              onClick={async () => {
+                try {
+                  await axios.post('/api/user/become-host', {}, { headers: { Authorization: `Bearer ${await getToken()}` } });
+                  await fetchUser();
+                } catch (e) {
+                  console.error(e);
+                }
+              }}
+            >
+              Become a host
             </button>
           )}
         </div>
@@ -231,14 +246,28 @@ const Navbar = () => {
           </div>
 
           <div className="mt-auto pt-6">
-            {user && (
+            {user && isOwner && (
               <button
                 className="w-full border border-black px-4 py-2 rounded-full cursor-pointer transition-all hover:bg-gray-50 mb-4 text-black"
-                onClick={() =>
-                  isOwner ? navigate("/owner") : setShowHotelReg(true)
-                }
+                onClick={() => navigate("/owner")}
               >
-                {isOwner ? "Dashboard" : "List Your Hotel"}
+                Dashboard
+              </button>
+            )}
+            {user && !isOwner && (
+              <button
+                className="w-full border border-black px-4 py-2 rounded-full cursor-pointer transition-all hover:bg-gray-50 mb-4 text-black"
+                onClick={async () => {
+                  try {
+                    await axios.post('/api/user/become-host', {}, { headers: { Authorization: `Bearer ${await getToken()}` } });
+                    await fetchUser();
+                    setIsMenuOpen(false);
+                  } catch (e) {
+                    console.error(e);
+                  }
+                }}
+              >
+                Become a host
               </button>
             )}
 

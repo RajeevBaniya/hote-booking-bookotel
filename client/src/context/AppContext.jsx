@@ -69,6 +69,7 @@ export const AppProvider = ({ children }) => {
     navigate,
     user,
     getToken,
+    fetchUser, 
     isOwner,
     setIsOwner,
     axios,
