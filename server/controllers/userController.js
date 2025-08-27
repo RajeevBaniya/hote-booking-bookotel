@@ -2,8 +2,25 @@
 export const getUserData = async (req, res) => {
   try {
     const role = req.user.role;
+    const roleIntent = req.user.roleIntent;
     const recentSearchedCities = req.user.recentSearchedCities;
-    res.json({ success: true, role, recentSearchedCities });
+    res.json({ success: true, role, roleIntent, recentSearchedCities });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// POST /api/user/intent
+export const setUserIntent = async (req, res) => {
+  try {
+    const { roleIntent } = req.body;
+    if (!roleIntent || !["booker", "ownerCandidate"].includes(roleIntent)) {
+      return res.json({ success: false, message: "Invalid role intent" });
+    }
+    const user = await req.user;
+    user.roleIntent = roleIntent;
+    await user.save();
+    res.json({ success: true, message: "Intent saved", roleIntent });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }

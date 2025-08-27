@@ -39,7 +39,7 @@ const Navbar = () => {
   const { openSignIn } = useClerk();
   const location = useLocation();
 
-  const { navigate, isOwner, setShowHotelReg } = useAppContext();
+  const { navigate, isOwner, setShowHotelReg, roleIntent } = useAppContext();
 
   useEffect(() => {
     if (location.pathname !== "/") {
@@ -117,7 +117,7 @@ const Navbar = () => {
             </a>
           ))}
 
-          {user && (
+          {user && (isOwner || roleIntent === "ownerCandidate") && (
             <button
               className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${
                 isScrolled ? "text-black" : "text-white"
@@ -231,7 +231,7 @@ const Navbar = () => {
           </div>
 
           <div className="mt-auto pt-6">
-            {user && (
+            {user && (isOwner || roleIntent === "ownerCandidate") && (
               <button
                 className="w-full border border-black px-4 py-2 rounded-full cursor-pointer transition-all hover:bg-gray-50 mb-4 text-black"
                 onClick={() =>

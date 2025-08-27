@@ -18,7 +18,9 @@ export const AppProvider = ({ children }) => {
   const { getToken } = useAuth();
 
   const [isOwner, setIsOwner] = useState(false);
+  const [roleIntent, setRoleIntent] = useState(undefined);
   const [showHotelReg, setShowHotelReg] = useState(false);
+  const [showIntentPrompt, setShowIntentPrompt] = useState(false);
   const [searchedCities, setSearchedCities] = useState([]);
   const [rooms, setRooms] = useState([]);
 
@@ -42,6 +44,8 @@ export const AppProvider = ({ children }) => {
       });
       if (data.success) {
         setIsOwner(data.role === "hotelOwner");
+        setRoleIntent(data.roleIntent);
+        if (!data.roleIntent) setShowIntentPrompt(true);
         setSearchedCities(data.recentSearchedCities);
       } else {
         // Retry fetching user details after 5 seconds
@@ -53,6 +57,24 @@ export const AppProvider = ({ children }) => {
       toast.error(error.message);
     }
   }, [getToken, setIsOwner, setSearchedCities]);
+
+  const saveRoleIntent = useCallback(async (intent) => {
+    try {
+      const { data } = await axios.post(
+        "/api/user/intent",
+        { roleIntent: intent },
+        { headers: { Authorization: `Bearer ${await getToken()}` } }
+      );
+      if (data.success) {
+        setRoleIntent(data.roleIntent);
+        setShowIntentPrompt(false);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }, [axios, getToken]);
 
   useEffect(() => {
     if (user) {
@@ -71,9 +93,14 @@ export const AppProvider = ({ children }) => {
     getToken,
     isOwner,
     setIsOwner,
+    roleIntent,
+    setRoleIntent,
+    saveRoleIntent,
     axios,
     showHotelReg,
     setShowHotelReg,
+    showIntentPrompt,
+    setShowIntentPrompt,
     searchedCities,
     setSearchedCities,
     rooms,

@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "./components/Navbar";
+import IntentPrompt from "./components/IntentPrompt";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
@@ -17,12 +18,13 @@ import Loader from "./components/Loader";
 
 const App = () => {
   const isOwnerPath = useLocation().pathname.includes("owner");
-  const { showHotelReg } = useAppContext();
+  const { showHotelReg, showIntentPrompt } = useAppContext();
 
   return (
     <div>
       <Toaster />
       {!isOwnerPath && <Navbar />}
+      {showIntentPrompt && <IntentPrompt />}
       {showHotelReg && <HotelReg />}
       <div className="min-h-[70vh]">
         <Routes>
