@@ -14,13 +14,14 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const currency = import.meta.env.VITE_CURRENCY || "$";
   const navigate = useNavigate();
-  const { user } = useUser();
+  const { user, isLoaded, isSignedIn } = useUser();
   const { getToken } = useAuth();
 
   const [isOwner, setIsOwner] = useState(false);
   const [roleIntent, setRoleIntent] = useState(undefined);
   const [showHotelReg, setShowHotelReg] = useState(false);
   const [showIntentPrompt, setShowIntentPrompt] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
   const [searchedCities, setSearchedCities] = useState([]);
   const [rooms, setRooms] = useState([]);
 
@@ -39,13 +40,20 @@ export const AppProvider = ({ children }) => {
 
   const fetchUser = useCallback(async () => {
     try {
+      setAuthLoading(true);
       const { data } = await axios.get("/api/user", {
         headers: { Authorization: `Bearer ${await getToken()}` },
       });
       if (data.success) {
         setIsOwner(data.role === "hotelOwner");
         setRoleIntent(data.roleIntent);
-        if (!data.roleIntent) setShowIntentPrompt(true);
+        if (data.role !== "hotelOwner") {
+          const key = `intentPromptShown:${(user && user.id) ? user.id : "unknown"}`;
+          const shouldShow = !data.roleIntent || !sessionStorage.getItem(key);
+          setShowIntentPrompt(shouldShow);
+        } else {
+          setShowIntentPrompt(false);
+        }
         setSearchedCities(data.recentSearchedCities);
       } else {
         // Retry fetching user details after 5 seconds
@@ -55,8 +63,10 @@ export const AppProvider = ({ children }) => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setAuthLoading(false);
     }
-  }, [getToken, setIsOwner, setSearchedCities]);
+  }, [getToken, setIsOwner, setSearchedCities, user]);
 
   const saveRoleIntent = useCallback(async (intent) => {
     try {
@@ -68,19 +78,38 @@ export const AppProvider = ({ children }) => {
       if (data.success) {
         setRoleIntent(data.roleIntent);
         setShowIntentPrompt(false);
+        const key = `intentPromptShown:${(user && user.id) ? user.id : "unknown"}`;
+        sessionStorage.setItem(key, "1");
       } else {
         toast.error(data.message);
       }
     } catch (error) {
       toast.error(error.message);
     }
-  }, [axios, getToken]);
+  }, [axios, getToken, user]);
 
   useEffect(() => {
-    if (user) {
-      fetchUser();
+    if (!isLoaded) {
+      setAuthLoading(true);
+      return;
     }
-  }, [user, fetchUser]);
+    if (isSignedIn && user) {
+      fetchUser();
+    } else {
+      // If logged out, reset flags and stop loading
+      setIsOwner(false);
+      setRoleIntent(undefined);
+      setShowIntentPrompt(false);
+      // Clear any intent prompt flags on logout
+      const toRemove = [];
+      for (let i = 0; i < sessionStorage.length; i++) {
+        const k = sessionStorage.key(i);
+        if (k && k.startsWith("intentPromptShown:")) toRemove.push(k);
+      }
+      toRemove.forEach((k) => sessionStorage.removeItem(k));
+      setAuthLoading(false);
+    }
+  }, [isLoaded, isSignedIn, user, fetchUser]);
 
   useEffect(()=>{
     fetchRooms();
@@ -101,6 +130,7 @@ export const AppProvider = ({ children }) => {
     setShowHotelReg,
     showIntentPrompt,
     setShowIntentPrompt,
+    authLoading,
     searchedCities,
     setSearchedCities,
     rooms,

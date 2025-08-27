@@ -3,6 +3,7 @@ import Navbar from "../../components/hotelOwner/Navbar";
 import Sidebar from "../../components/hotelOwner/Sidebar";
 import { Outlet } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
+import Loader from "../../components/Loader";
 
 const Layout = () => {
   const { isOwner, navigate, authLoading } = useAppContext();
@@ -19,11 +20,7 @@ const Layout = () => {
   };
 
   if (authLoading) {
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm">
-        <LoadingSpinner />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

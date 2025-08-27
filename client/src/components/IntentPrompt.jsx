@@ -2,7 +2,12 @@ import React from "react";
 import { useAppContext } from "../context/AppContext";
 
 const IntentPrompt = () => {
-  const { setShowIntentPrompt, saveRoleIntent } = useAppContext();
+  const { setShowIntentPrompt, saveRoleIntent, setShowHotelReg, user } = useAppContext();
+
+  const markShown = () => {
+    const key = `intentPromptShown:${user?.id || "unknown"}`;
+    sessionStorage.setItem(key, "1");
+  };
 
   return (
     <div
@@ -18,13 +23,13 @@ const IntentPrompt = () => {
         <div className="flex flex-col gap-3">
           <button
             className="w-full border border-gray-300 rounded-md py-2 hover:bg-gray-50"
-            onClick={() => saveRoleIntent("booker")}
+            onClick={() => { markShown(); saveRoleIntent("booker"); }}
           >
             I want to book hotels
           </button>
           <button
             className="w-full bg-black text-white rounded-md py-2 hover:bg-gray-800"
-            onClick={() => saveRoleIntent("ownerCandidate")}
+            onClick={() => { markShown(); saveRoleIntent("ownerCandidate"); setShowHotelReg(true); }}
           >
             I want to list my hotel
           </button>
