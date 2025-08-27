@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { assets, cities } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
+import DateInput from "../components/DateInput";
 
 const Hero = () => {
 
@@ -65,11 +66,7 @@ const Hero = () => {
             <img src={assets.calenderIcon} alt="" className="h-4" />
             <label htmlFor="checkIn">Check in</label>
           </div>
-          <input
-            id="checkIn"
-            type="date"
-            className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none"
-          />
+          <DateInput id="checkIn" placeholder="mm/dd/yyyy" className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none" />
         </div>
 
         <div>
@@ -77,11 +74,7 @@ const Hero = () => {
             <img src={assets.calenderIcon} alt="" className="h-4" />
             <label htmlFor="checkOut">Check out</label>
           </div>
-          <input
-            id="checkOut"
-            type="date"
-            className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none"
-          />
+          <DateInput id="checkOut" placeholder="mm/dd/yyyy" className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none" />
         </div>
 
         <div className="flex md:flex-col max-md:gap-2 max-md:items-center">

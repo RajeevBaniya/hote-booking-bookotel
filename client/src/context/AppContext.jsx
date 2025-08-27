@@ -5,7 +5,9 @@ import { useUser, useAuth } from "@clerk/clerk-react";
 import { toast } from "react-hot-toast";
 
 
-axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
+// In development, use relative paths so Vite proxy can forward to backend.
+// In production (Vercel), use the absolute backend URL from env.
+axios.defaults.baseURL = import.meta.env.DEV ? "" : import.meta.env.VITE_BACKEND_URL;
 
 const AppContext = createContext();
 

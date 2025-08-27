@@ -5,6 +5,7 @@ import StarRating from "../components/StarRating";
 import { roomCommonData } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
+import DateInput from "../components/DateInput";
 
 const RoomDetails = () => {
   const { id } = useParams();
@@ -177,14 +178,12 @@ const RoomDetails = () => {
               <label htmlFor="checkInDate" className="font-medium">
                 Check-In
               </label>
-              <input
-                onChange={(e) => setCheckInDate(e.target.value)}
-                min={new Date().toISOString().split("T")[0]}
-                type="date"
+              <DateInput
                 id="checkInDate"
-                placeholder="Check-In"
-                className="w-full rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none"
-                required
+                value={checkInDate}
+                onChange={setCheckInDate}
+                min={new Date().toISOString().split("T")[0]}
+                placeholder="mm/dd/yyyy"
               />
             </div>
             <div className="w-px h-15 bg-gray-300/70 max-md:hidden"></div>
@@ -192,15 +191,13 @@ const RoomDetails = () => {
               <label htmlFor="checkOutDate" className="font-medium">
                 Check-Out
               </label>
-              <input
-                onChange={(e) => setCheckOutDate(e.target.value)}
-                min={checkInDate}
-                disabled={!checkInDate}
-                type="date"
+              <DateInput
                 id="checkOutDate"
-                placeholder="Check-Out"
-                className="w-full rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none"
-                required
+                value={checkOutDate}
+                onChange={setCheckOutDate}
+                min={checkInDate}
+                placeholder="mm/dd/yyyy"
+                className={`w-full rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none ${!checkInDate ? "opacity-60 cursor-not-allowed" : ""}`}
               />
             </div>
             <div className="w-px h-15 bg-gray-300/70 max-md:hidden"></div>
